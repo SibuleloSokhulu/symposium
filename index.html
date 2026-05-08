@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Simple Layout - Climate Centre Style</title>
+
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          primary: '#d9071d',
+          secondary: '#edbd55',
+          accent: '#3a31bd',
+        },
+        boxShadow: {
+          soft: '0 10px 30px rgba(0,0,0,0.10)',
+          glow: '0 0 30px rgba(217, 7, 29, 0.3)'
+        }
+      }
+    }
+  }
+</script>
+
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+    /* Base body styles */
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      color: #334155;
+      background-color: #ffffff;
+      margin: 0;
+      padding: 0;
+      padding-top: 80px;      /* space for fixed header */
+      /* No footer padding - footer will be hidden until end of page */
+    }
+
+    /* Header Styles */
+    header {
+      transition: all 0.3s ease;
+    }
+
+    header.scrolled {
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+      background-color: #ffffff;
+    }
+
+    /* Footer styling - fixed at bottom but hidden until end of page */
+    .global-footer {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 40;
+      transform: translateY(100%);
+      transition: transform 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+      visibility: visible;
+    }
+    
+    .global-footer.visible {
+      transform: translateY(0);
+    }
+    
+    /* Ensure main content has proper bottom spacing */
+    .main-content-wrapper {
+      min-height: calc(100vh - 80px);
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .content-spacer {
+      flex: 1;
+    }
+
+    /* Floating help button */
+    .help-button {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background-color: #d9071d;
+      color: white;
+      padding: 14px 28px;
+      border-radius: 50px;
+      text-decoration: none;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+      font-weight: bold;
+      z-index: 100;
+      transition: transform 0.2s, background-color 0.2s;
+      font-family: system-ui, sans-serif;
+    }
+    .help-button:hover {
+      background-color: #b80619;
+      transform: translateY(-3px);
+    }
+    
+    /* Adjust help button when footer is visible */
+    .global-footer.visible ~ .help-button,
+    .help-button.footer-visible {
+      bottom: 140px;
+    }
+
+    /* Simple content styling */
+    .content-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+    h2 {
+      font-size: 1.8rem;
+      margin-bottom: 1rem;
+      color: #0f172a;
+    }
+    p {
+      line-height: 1.6;
+      margin-bottom: 1rem;
+      color: #334155;
+    }
+    .card-demo {
+      background: #f8fafc;
+      border-radius: 1rem;
+      padding: 1.5rem;
+      margin-top: 1.5rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+    
+    /* Scroll progress / end indicator */
+    .scroll-hint {
+      text-align: center;
+      padding: 2rem;
+      color: #94a3b8;
+      font-size: 0.875rem;
+    }
+    .scroll-hint i {
+      animation: bounce 1.5s infinite;
+    }
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(5px); }
+    }
+</style>
+</head>
+<body class="text-slate-800 bg-white">
+
+  <!-- ==================== MODIFIED HEADER (centered logo and title, no menu titles) ==================== -->
+  <header id="site-header" class="fixed top-0 inset-x-0 z-50 bg-white/95 backdrop-blur-sm py-3 border-b border-gray-100">
+    <div class="max-w-7xl mx-auto px-6 flex items-center justify-center">
+      <!-- Centered Logo + Title (no menu items) -->
+      <a href="#" class="flex items-center gap-3 group">
+        <!-- Logo icon -->
+        <div class="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center text-primary transition-transform group-hover:scale-110">
+          <i class="fas fa-globe-africa text-xl"></i>
+        </div>
+        <div class="flex items-center gap-2">
+          <i class="fas fa-leaf text-secondary text-xl"></i>
+          <span class="font-bold text-slate-800 text-xl tracking-tight">Center For Global Climate Change</span>
+        </div>
+      </a>
+      
+      <!-- Mobile menu button removed since no menu items -->
+    </div>
+  </header>
+
+  <!-- ==================== MAIN CONTENT WRAPPER with scroll detection ==================== -->
+  <div class="main-content-wrapper" id="mainContentWrapper">
+    <main>
+      <div class="content-container">
+        <h2>Welcome to Our Platform</h2>
+        <p>This page features a modern, climate-research inspired header with a centered logo and title — all menu navigation items have been removed for a cleaner look. The footer now appears <strong>only when you scroll to the very end of the page</strong>, giving you a seamless browsing experience.</p>
+        
+        <div class="card-demo">
+          <i class="fas fa-magic text-primary text-2xl mb-2 block"></i>
+          <h3 style="font-size: 1.3rem; margin-bottom: 0.5rem;">Footer Reveal on Scroll End</h3>
+          <p>Keep scrolling down. When you reach the bottom of the content, the footer will smoothly slide up into view. This creates a clean, modern interaction where the footer is only visible when needed.</p>
+        </div>
+
+        <div class="card-demo">
+          <i class="fas fa-cloud-sun text-secondary text-2xl mb-2 block"></i>
+          <h3 style="font-size: 1.3rem; margin-bottom: 0.5rem;">Centered Header Design</h3>
+          <p>The header now features your logo and centre title perfectly centered — no menu links visible. The design remains clean and focused on your brand identity, while keeping all the responsive and scroll shadow effects.</p>
+        </div>
+        
+        <div class="card-demo">
+          <i class="fas fa-arrow-down text-accent text-2xl mb-2 block"></i>
+          <h3 style="font-size: 1.3rem; margin-bottom: 0.5rem;">Interactive Elements</h3>
+          <p>The floating "Help" button remains accessible, and when the footer becomes visible, the help button automatically adjusts its position upward to avoid overlap. Try it out!</p>
+        </div>
+        
+        <!-- Generate enough content to require scrolling -->
+        <div style="margin-top: 2rem; background: linear-gradient(135deg, #f0f9ff 0%, #e6f7ec 100%); border-radius: 1rem; padding: 2rem;">
+          <h3 class="text-xl font-semibold text-slate-800 mb-3">Our Research Areas</h3>
+          <div class="grid md:grid-cols-2 gap-4">
+            <div><i class="fas fa-tint text-primary mr-2"></i> Water Scarcity Solutions</div>
+            <div><i class="fas fa-tree text-secondary mr-2"></i> Reforestation Projects</div>
+            <div><i class="fas fa-chart-line text-accent mr-2"></i> Climate Data Analytics</div>
+            <div><i class="fas fa-hand-holding-heart text-primary mr-2"></i> Community Resilience</div>
+          </div>
+        </div>
+        
+        <!-- More content to fill space -->
+        <div style="height: 200px; display: flex; flex-direction: column; justify-content: center; align-items: center; background: #f8fafc; border-radius: 1rem; margin-top: 2rem;">
+          <i class="fas fa-leaf text-4xl text-primary/40 mb-3"></i>
+          <p class="text-center text-slate-500">Scroll further down to see the footer appear</p>
+          <i class="fas fa-arrow-down text-slate-400 mt-2 animate-bounce"></i>
+        </div>
+        
+        <div class="card-demo" style="background: #e6f7ec;">
+          <i class="fas fa-bullhorn text-secondary text-xl mb-2 block"></i>
+          <h3 style="font-size: 1.2rem;">Footer appears on page end</h3>
+          <p>The footer contains a contact form, social links, and copyright — all fully functional. It's hidden until you reach the absolute bottom of the content, making the interface cleaner.</p>
+        </div>
+        
+        <!-- Extra spacer to ensure footer triggers correctly -->
+        <div style="height: 100px;"></div>
+        
+        <!-- Scroll hint -->
+        <div class="scroll-hint" id="scrollHint">
+          <i class="fas fa-chevron-down"></i> Keep scrolling to reveal footer <i class="fas fa-chevron-down"></i>
+        </div>
+        
+        <div style="height: 60px;"></div>
+      </div>
+    </main>
+    <!-- Invisible spacer for scroll detection -->
+    <div class="content-spacer"></div>
+  </div>
+
+  <!-- Floating Help Button -->
+  <a href="#" class="help-button" id="helpBtn">
+    <i class="fas fa-question-circle mr-2"></i> Help
+  </a>
+
+  <!-- ==================== FOOTER (hidden until end of page) ==================== -->
+  <footer id="globalFooter" class="global-footer bg-gradient-to-br from-slate-800 to-slate-900 text-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+      <div class="grid md:grid-cols-3 gap-6">
+        <!-- Social Networks -->
+        <div>
+          <h3 class="text-lg font-semibold mb-3 flex items-center gap-2">
+            <i class="fas fa-share-alt text-secondary"></i>
+            Connect With Us
+          </h3>
+          <p class="text-slate-400 text-sm mb-3">Get connected with us on social networks:</p>
+          <div class="flex gap-3">
+            <a href="#" class="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center hover:bg-primary transition">
+              <i class="fab fa-facebook-f text-sm"></i>
+            </a>
+            <a href="#" class="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center hover:bg-primary transition">
+              <i class="fab fa-twitter text-sm"></i>
+            </a>
+            <a href="#" class="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center hover:bg-primary transition">
+              <i class="fab fa-instagram text-sm"></i>
+            </a>
+            <a href="#" class="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center hover:bg-primary transition">
+              <i class="fab fa-linkedin-in text-sm"></i>
+            </a>
+          </div>
+        </div>
+
+        <!-- Contact Info -->
+        <div>
+          <h3 class="text-lg font-semibold mb-3 flex items-center gap-2">
+            <i class="fas fa-map-marker-alt text-secondary"></i>
+            Contact
+          </h3>
+          <ul class="space-y-2 text-slate-400 text-sm">
+            <li class="flex items-start gap-2">
+              <i class="fas fa-map-marker-alt mt-1 text-secondary text-xs"></i>
+              <span>24-26 Scanlan St, New Park, Kimberley, 8301, SA</span>
+            </li>
+            <li class="flex items-center gap-2">
+              <i class="fas fa-envelope text-secondary text-xs"></i>
+              <a href="mailto:centerforglobalchange@spu.ac.za" class="hover:text-secondary transition">centerforglobalchange@spu.ac.za</a>
+            </li>
+            <li class="flex items-center gap-2">
+              <i class="fas fa-phone text-secondary text-xs"></i>
+              <a href="tel:+27659737225" class="hover:text-secondary transition">+27 (0) 65 973 7225</a>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Ask Us Form -->
+        <div>
+          <h3 class="text-lg font-semibold mb-3 flex items-center gap-2">
+            <i class="fas fa-question-circle text-secondary"></i>
+            Ask Us Anything!
+          </h3>
+          <form class="space-y-2" onsubmit="handleFormSubmit(event)">
+            <input type="text" placeholder="Your Name" class="w-full px-3 py-1.5 rounded-lg bg-white/10 border border-white/20 text-white placeholder-slate-400 focus:outline-none focus:border-secondary transition text-sm" required>
+            <input type="email" placeholder="Your Email" class="w-full px-3 py-1.5 rounded-lg bg-white/10 border border-white/20 text-white placeholder-slate-400 focus:outline-none focus:border-secondary transition text-sm" required>
+            <textarea placeholder="Your Question" rows="1" class="w-full px-3 py-1.5 rounded-lg bg-white/10 border border-white/20 text-white placeholder-slate-400 focus:outline-none focus:border-secondary transition text-sm resize-none" required></textarea>
+            <button type="submit" class="w-full px-3 py-1.5 bg-primary text-white font-medium rounded-lg hover:bg-[#b80619] transition text-sm">
+              Send Question
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <div class="mt-6 pt-4 border-t border-white/10 text-center text-slate-400 text-xs">
+        <p>&copy; <span id="year"></span> Center For Global Climate Change. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Set current year in footer
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Header scroll effect
+    const header = document.getElementById('site-header');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 20) {
+        header.classList.add('scrolled');
+      } else {
+        header.classList.remove('scrolled');
+      }
+    });
+
+    // FOOTER REVEAL ON PAGE END (only when user reaches bottom)
+    const footer = document.getElementById('globalFooter');
+    const helpBtn = document.getElementById('helpBtn');
+    
+    function checkFooterVisibility() {
+      // Get document height and viewport position
+      const scrollPosition = window.scrollY + window.innerHeight;
+      const documentHeight = document.documentElement.scrollHeight;
+      const threshold = 30; // pixels from bottom to trigger footer
+      
+      // If user is near the bottom (within threshold)
+      if (scrollPosition >= documentHeight - threshold) {
+        if (!footer.classList.contains('visible')) {
+          footer.classList.add('visible');
+          // Adjust help button position when footer appears
+          if (helpBtn) {
+            helpBtn.classList.add('footer-visible');
+          }
+        }
+      } else {
+        if (footer.classList.contains('visible')) {
+          footer.classList.remove('visible');
+          if (helpBtn) {
+            helpBtn.classList.remove('footer-visible');
+          }
+        }
+      }
+    }
+    
+    // Initial check on page load
+    window.addEventListener('load', () => {
+      checkFooterVisibility();
+      // Small delay to ensure content is fully rendered
+      setTimeout(checkFooterVisibility, 100);
+    });
+    
+    // Listen to scroll events
+    window.addEventListener('scroll', checkFooterVisibility);
+    window.addEventListener('resize', checkFooterVisibility);
+    
+    // Also monitor any dynamic content changes that might affect height
+    const observer = new ResizeObserver(() => {
+      checkFooterVisibility();
+    });
+    observer.observe(document.body);
+    
+    // Form submit handler for footer "Ask Us" form
+    window.handleFormSubmit = function(e) {
+      e.preventDefault();
+      alert('Thank you for your question! We will get back to you soon.');
+      e.target.reset();
+    };
+    
+    // Help button click handler
+    if (helpBtn) {
+      helpBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        alert('How can we help you? Feel free to use the contact form in the footer or email us directly.\n\nEmail: centerforglobalchange@spu.ac.za');
+      });
+    }
+    
+    // Adjust help button style when footer is visible (dynamic)
+    function updateHelpButtonPosition() {
+      if (footer.classList.contains('visible') && helpBtn) {
+        helpBtn.style.bottom = '140px';
+      } else if (helpBtn) {
+        helpBtn.style.bottom = '20px';
+      }
+    }
+    
+    // Override to use style instead of class for more reliable positioning
+    const styleObserver = new MutationObserver(() => {
+      if (footer.classList.contains('visible')) {
+        helpBtn.style.bottom = '140px';
+      } else {
+        helpBtn.style.bottom = '20px';
+      }
+    });
+    styleObserver.observe(footer, { attributes: true, attributeFilter: ['class'] });
+    
+    // Set initial help button position
+    helpBtn.style.bottom = '20px';
+    
+    // Optional: Hide scroll hint when footer appears
+    function updateScrollHint() {
+      const hint = document.getElementById('scrollHint');
+      if (hint) {
+        if (footer.classList.contains('visible')) {
+          hint.style.opacity = '0';
+          hint.style.transition = 'opacity 0.3s';
+        } else {
+          hint.style.opacity = '1';
+        }
+      }
+    }
+    
+    const hintObserver = new MutationObserver(() => {
+      updateScrollHint();
+    });
+    hintObserver.observe(footer, { attributes: true, attributeFilter: ['class'] });
+    updateScrollHint();
+  </script>
+</body>
+</html>
